@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExerciseDB API Fetcher</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+         * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            list-style: none;
+            text-decoration: none;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #EEDBFF;
+            position: relative;
+            min-height: 100%;
+            width: 100%;
+            overflow-y: auto; /* Allow vertical scrolling */
+            overflow-x: hidden;
+        }
+
+        .sidebar {
+            width: 78px;
+            height: 100%;
+            background: #0c0c0c;
+            padding: 6px 14px;
+            top: 0;
+            left: 0;
+            position: fixed;
+            transition: all 0.5s ease;
+            overflow-y: auto;
+        }
+        .sidebar.active {
+            width: 240px;
+        }
+        .sidebar .logo {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            display: flex;
+            width: 100%;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.5s ease;
+        }
+        .sidebar .logo img {
+            max-height: 40px;
+        }
+        .sidebar .logo .logo_name {
+            font-size: 20px;
+            font-weight: 400;
+            color: #fff;
+            margin-left: 10px;
+            font-weight: bold;
+        }
+        .sidebar.active .logo {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .sidebar #btn {
+            color: #fff;
+            position: absolute;
+            left: 56%;
+            top: 6px;
+            font-size: 20px;
+            height: 50px;
+            width: 50px;
+            text-align: center;
+            line-height: 50px;
+            transform: translateX(-50%);
+            cursor: pointer;
+        }
+        .sidebar.active #btn {
+            left: 90%;
+        }
+        .sidebar ul {
+            margin-top: 55px;
+        }
+        .sidebar ul li {
+            position: relative;
+            height: 55px;
+            width: 100%;
+            list-style: none;
+            margin: 10px 5px;
+            line-height: 50px;
+        }
+        .sidebar ul li .tooltip {
+            position: absolute;
+            left: 122px;
+            top: 50%;
+            transform: translate(-50%, -50% );
+            border-radius: 6px;
+            text-align: center;
+            height: 35px;
+            width: 122px;
+            background: #fff;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            transition: 0s;
+            opacity: 0;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .sidebar ul li:hover .tooltip {
+            transition: all 0.5s ease;
+            opacity: 1;
+            top: 50%;
+        }
+        .sidebar.active ul li .tooltip {
+            display: none;
+        }
+        .sidebar ul li a {
+            color: #fff;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            border-radius: 12px;
+            white-space: nowrap;
+        }
+        .sidebar ul li a:hover {
+            color: #19181a;
+            background: #fff;
+        }
+        .sidebar ul li a i {
+            height: 50px;
+            min-width: 50px;
+            border-radius: 12px;
+            line-height: 50px;
+            text-align: center;
+        }
+        .sidebar ul li a .links_name {
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.5s ease;
+        }
+        .sidebar.active ul li a .links_name {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .home_content {
+            position: absolute;
+            height: 100%;
+            width: calc(100% - 78px);
+            left: 78px;
+            transition: all 0.5s ease;
+        }
+        .home_content .text {
+            font-size: 25px;
+            font-weight: 500;
+            color: #1d1b31;
+            margin: 12px;
+        }
+        .sidebar.active ~ .home_content{
+            width: calc(100% - 240px);
+            left:240px;
+
+        }
+        .header {
+            padding: 20px;
+            text-align: center;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .main-container {
+            display: flex;
+            justify-content: center;
+            padding: 30px;
+            margin-top:20px;
+        }
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .section {
+            margin-bottom: 50px;
+        }
+        .section h2 {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .data {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            background-color: white;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin: 0;
+        }
+        input, button, select {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #9428a7;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #772187;
+        }
+        .exercise {
+            margin-bottom: 20px; /* Adjust spacing between exercises */
+            padding-bottom: 20px; /* Add padding at the bottom */
+            border-bottom: 1px solid #ddd; /* Separator line */
+        }
+        .exercise:last-child {
+            border-bottom: none; /* Remove border for the last exercise */
+        }
+        .exercise h3 {
+            margin: 0;
+            font-size: 1.5em;
+            text-transform: uppercase;
+        }
+        
+        #last-updated {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+        #last-updated p {
+            font-style: italic;
+            margin: 0;
+        }
+    </style>
+    <!-- Include Moment.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="Images/logo.png" alt="HomeFit">
+            <div class="logo_name">HOME FIT</div>
+        </div>
+   
+    <i class='bx bx-menu' id='btn'></i>
+    <ul class="nav_list">
+        <li><a href="Home.html"><i class='bx bx-home-alt-2'></i><span class="links_name">Home</span></a></li>
+        <li><a href="MyExercise.html"><i class='bx bx-run'></i><span class="links_name">My Exercise</span></a></li>
+        <li><a href="exercisedb_api.html"><i class='bx bx-note'></i><span class="links_name">ExerciseDB</span></a></li>
+        <li><a href="Profile.html"><i class='bx bx-user'></i><span class="links_name">Profile</span></a></li>
+        <li><a href="History.html"><i class='bx bx-history'></i><span class="links_name">History</span></a></li>
+        <li><a href="index.html"><i class='bx bx-log-out'></i><span class="links_name">Log Out</span></a></li>
+    </ul>
+</div>
+    <div class="home_content">
+        <div class="header">
+         <h1>EXERCISE DB</h1>
+    </div>
+
+    <div class="main-container">
+        <div class="container">
+            <div class="section" id="last-updated">
+                <p>Last Updated: <span id="last-updated-timestamp"></span></p>
+            </div>
+
+            <div class="section" id="exercise-selector">
+                <h2>Select Body Part</h2>
+                <select id="body-part-selector" onchange="fetchExercisesByBodyPart()">
+                    <option value="">Select a body part</option>
+                </select>
+            </div>
+
+            <div class="section" id="selected-body-part-exercises">
+                <h2>Exercises for Selected Body Part</h2>
+                <div class="data" id="selected-body-part-exercises-data">Select a body part to view exercises.</div>
+            </div>
+
+            <div class="section" id="exercise-by-name">
+                <h2>Exercise by Name</h2>
+                <input type="text" id="exercise-name-input" placeholder="Enter Exercise Name">
+                <button onclick="fetchExerciseByName()">Fetch Exercise</button>
+                <div class="data" id="exercise-by-name-data">Enter a name to search exercises.</div>
+            </div>
+
+            <!-- New Section for All Exercises -->
+            <div class="section" id="all-exercises">
+                <h2>All Exercises</h2>
+                <button onclick="fetchAllExercises()">Fetch All Exercises</button>
+                <div class="data" id="all-exercises-data">Click the button to load all exercises.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+         let btn = document.querySelector("#btn");
+        let sidebar = document.querySelector(".sidebar");
+
+         btn.onclick = function() {
+        sidebar.classList.toggle("active");
+         }
+         
+        const apiKey = '717c001d14msh14008d2bf402878p15035cjsn7b7a2e3bc1d9';
+        const apiHost = 'exercisedb.p.rapidapi.com';
+
+        async function fetchData(url, elementId, formatFunc) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = 'Loading...';
+            try {
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'x-rapidapi-host': apiHost,
+                        'x-rapidapi-key': apiKey
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const data = await response.json();
+                element.innerHTML = formatFunc(data);
+            } catch (error) {
+                console.error(`Error fetching data for ${elementId}:`, error);
+                element.innerHTML = `Error: ${error.message}`;
+            }
+        }
+
+        function formatExercise(exercise) {
+            return `
+                <div class="exercise">
+                    <h3>${exercise.name}</h3>
+                    <p><strong>Body Part:</strong> ${exercise.bodyPart}</p>
+                    <p><strong>Equipment:</strong> ${exercise.equipment}</p>
+                    <p><strong>Target:</strong> ${exercise.target}</p>
+                    <p><strong>Secondary Muscles:</strong> ${exercise.secondaryMuscles.join(', ')}</p>
+                    <p><strong>Instructions:</strong></p>
+                    <ol>${exercise.instructions.map(inst => `<li>${inst}</li>`).join('')}</ol>
+                    <img src="${exercise.gifUrl}" alt="${exercise.name}">
+                </div>
+            `;
+        }
+
+        function fetchExerciseByName() {
+            const name = document.getElementById('exercise-name-input').value;
+            if (name) {
+                fetchData(`https://exercisedb.p.rapidapi.com/exercises/name/${name}?offset=0&limit=10`, 'exercise-by-name-data', data => data.map(formatExercise).join(''));
+            } else {
+                document.getElementById('exercise-by-name-data').innerHTML = 'Please enter a name.';
+            }
+        }
+
+        async function populateBodyPartSelector() {
+            try {
+                const response = await fetch('https://exercisedb.p.rapidapi.com/exercises/bodyPartList', {
+                    method: 'GET',
+                    headers: {
+                        'x-rapidapi-host': apiHost,
+                        'x-rapidapi-key': apiKey
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const data = await response.json();
+                const selector = document.getElementById('body-part-selector');
+                data.forEach(part => {
+                    const option = document.createElement('option');
+                    option.value = part;
+                    option.text = part.charAt(0).toUpperCase() + part.slice(1);
+                    selector.add(option);
+                });
+            } catch (error) {
+                console.error('Error fetching body part list:', error);
+            }
+        }
+
+        function fetchExercisesByBodyPart() {
+            const selectedBodyPart = document.getElementById('body-part-selector').value;
+            if (selectedBodyPart) {
+                fetchData(`https://exercisedb.p.rapidapi.com/exercises/bodyPart/${selectedBodyPart}?limit=10&offset=0`, 'selected-body-part-exercises-data', data => data.map(formatExercise).join(''));
+            } else {
+                document.getElementById('selected-body-part-exercises-data').innerHTML = 'Please select a body part to view exercises.';
+            }
+        }
+
+        function fetchAllExercises() {
+            fetchData('https://exercisedb.p.rapidapi.com/exercises', 'all-exercises-data', data => data.map(formatExercise).join(''));
+        }
+
+        function updateLastUpdatedTimestamp() {
+            const lastUpdatedElement = document.getElementById('last-updated-timestamp');
+            lastUpdatedElement.textContent = moment().format('YYYY-MM-DD HH:mm:ss');
+        }
+
+        // Initialize the page with data
+        populateBodyPartSelector(); // Populate body part selector on page load
+        updateLastUpdatedTimestamp(); // Update the last updated timestamp on page load
+    </script>
+</body>
+</html>

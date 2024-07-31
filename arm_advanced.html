@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #EEDBFF;
+            margin: 0;
+            padding: 0;
+        }
+        .content {
+            padding: 10px;
+        }
+        .workout-header {
+            position: relative;
+            color: #fff;
+            text-align: left;
+            padding: 20px;
+            background-size: cover;
+            background-position: center;
+            background-image: url('Images/arm_advanced.jpg'); /* Updated image URL */
+        }
+        .workout-header::before {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3); /* Adjusted opacity */
+        }
+        .workout-header h1, .workout-header p {
+            color: #fff; /* Ensures text is white for contrast */
+        }
+        .workout-list {
+            margin: 20px 0;
+        }
+        .workout-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .workout-item img {
+            width: 50px;
+            height: 50px;
+            margin-right: 20px;
+        }
+        .workout-item div {
+            flex: 1;
+        }
+        .workout-item h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .workout-item p {
+            margin: 5px 0 0;
+            color: #888;
+        }
+        .back-button {
+            width: calc(100% - 40px);
+            margin: 20px auto;
+            display: block;
+            padding: 10px;
+            background-color: #9428a7;
+            color: #fff;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 10px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="workout-header">
+        <h1>ARM ADVANCED</h1>
+        <p>10 mins • 5 Workouts</p>
+    </div>
+    <div class="content">
+        <div class="workout-list">
+            <div class="workout-item">
+                <img src="Images/burpees.gif" alt="Burpees">
+                <div>
+                    <h3>Burpees</h3>
+                    <p>x30</p>
+                </div>
+            </div>
+            <div class="workout-item">
+                <img src="Images/arm-circles-clockwise.gif" alt="Arm Circles Clockwise">
+                <div>
+                    <h3>Arm Circles Clockwise</h3>
+                    <p>00:30</p>
+                </div>
+            </div>
+            <div class="workout-item">
+                <img src="Images/punches.gif" alt="Punches">
+                <div>
+                    <h3>Punches</h3>
+                    <p>x30</p>
+                </div>
+            </div>
+            <div class="workout-item">
+                <img src="Images/pike-push-ups.gif" alt="Pike Push Up">
+                <div>
+                    <h3>Pike Push Up</h3>
+                    <p>00:30</p>
+                </div>
+            </div>
+            <div class="workout-item">
+                <img src="Images/plank-straight-arm-kickback.gif" alt="Plank Straight Arm Kickback">
+                <div>
+                    <h3>Plank Straight Arm Kickback</h3>
+                    <p>x30</p>
+                </div>
+            </div>
+        </div>
+        <a href="advanced.html" class="back-button">Back</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #EEDBFF;
+            margin: 0;
+            padding: 0;
+        }
+        .logo {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+        }
+        .logo img {
+            max-height: 50px;
+        }
+        .container {
+            width: 1200px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 90px;
+        }
+        .header-container {
+            display: flex;
+            justify-content: flex-start; /* Align items to the left */
+            margin-top: 20px; /* Add margin for spacing */
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        .header-title {
+            font-size: 30px;
+            margin: 0;
+            margin-right: 20px;
+        }
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        #photoOptions button {
+            margin-left: 10px;
+            font-weight: bold;
+        }
+        a, button {
+            padding: 10px;
+            text-decoration: none;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        a:hover, button:hover {
+            background-color: #fdfbe2;
+        }
+        #buttons {
+            display: none;
+            margin-right: -10px;
+            margin-top: -10px;
+            font-weight: bold;
+
+        }
+        #undo {
+            color: #dc3545;
+        }
+        #confirm {
+            color: #28a745;
+        }
+        #imagePreview {
+            display: none;
+            width: 400px;
+            height: 250px;
+            margin: 20px auto;
+            margin-left: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        #imagePreview img {
+            width: 100%;
+            height: 100%;
+        }
+        #webCam {
+            width: 400px;
+            height: 250px;
+            display: none;
+            margin: 0 auto;
+            border-radius: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            margin-top: 20px;
+            margin-left: 20px;
+        }
+
+        #snapButton {
+            display: flex;
+            margin-left:-10px;
+            margin-top: 10px;
+
+        }
+
+        #snapLink {
+            display: block;
+            width: 100px;
+            text-align: center;
+            background-color: #ffc107;
+            color: #ffffff;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+            transition: width 0.3s ease;
+        }
+        #snapLink:hover {
+            background-color: #e0a800;
+        }
+        #photoOptions {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: -10px;
+        }
+        #photoOptions button:nth-child(1) {
+            background-color: #a6fff8;
+        }
+        #photoOptions button:nth-child(2) {
+            background-color: #dbc6ff;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+            margin:right;
+        }
+        .form-control {
+            border-radius: 10px;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus {
+            background-color: #fff;
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+        .error-message {
+            color: red;
+            position: absolute;
+            bottom: -20px;
+            left: 0;
+            width: 100%;
+            text-align: left;
+        }
+        .have-account {
+            text-align: right;
+            color: #333;
+            font-size: 21px;
+            font-weight: bold;
+            margin-top: 25px;
+            margin-right: 110px;
+        }
+        .back-to-login {
+            text-align: right;
+            color: #007bff;
+            font-size: 20px;
+            margin-top: 10px;
+            margin-right: 175px;
+            margin-bottom: -10px;
+        }
+        .back-to-login a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .back-to-login a:hover {
+            color: #0056b3;
+        }
+        .form-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .form-content {
+            width: 45%;
+            display: flex;
+            flex-direction: column;
+            margin-right:50px;
+        }
+
+        .form-content .form-group {
+            margin-bottom: 30px; /* Adjust this value to add more or less space */
+        }
+        .left-side {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <img src="Images/logo.png" alt="HomeFit">
+    </div>
+    <div class="container">
+        <div class="header-container">
+            <div class="header-content">
+                <h1 class="header-title">Profile Photos:</h1>
+                <div id="photoOptions" class="header-buttons">
+                    <button type="button" onclick="showWebcam()">Take Photo</button>
+                    <button type="button" onclick="uploadPhoto()">Upload Photo</button>
+                </div>
+            </div>
+        </div>
+        <div class="form-container">
+            <div class="left-side">
+                <video id="webCam" autoplay playsinline></video>
+                <canvas id="canvas" style="display: none;"></canvas>
+                <div id="imagePreview">
+                    <img id="pictureImage" src="" alt="Picture Preview">
+                </div>
+                <div id="buttons" style="display: none;">
+                    <button id="undo" onclick="undoPicture()"><i class="fas fa-undo"></i></button>
+                    <button id="confirm" onclick="confirmPicture()"><i class="fas fa-check"></i></button>
+                </div>
+                <div id="snapButton" style="display: none;">
+                    <button  id="snapLink" onclick="takeAPicture()">Snap</button>
+                </div>
+                <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="displayUploadedPhoto(event)">
+                <input type="hidden" id="profileImage" name="profileImage">
+            </div>
+  
+            <div class="form-content">
+                <h2 style="margin-left:-5px; margin-top: -40px; margin-bottom: 20px;">Sign New Account</h2>
+                <form id="signupForm" action="signup.php" method="post" enctype="multipart/form-data" onsubmit="validateForm(event)">
+                    <!-- Form Fields -->
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+                        <div id="username-error" class="error-message"></div>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" id="gender" name="gender" required>
+                            <option value="" disabled selected>Gender</option>
+                            <option value="Female">Female</option>
+                            <option value="Male">Male</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                        <span id="email-error" style="color: red; display: none;"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="date" class="form-control" id="year_of_birth" name="year_of_birth" placeholder="Year of Birth" required>
+                        <span id="year-of-birth-error" style="color: red; display: none;"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                    </div>
+                    
+                    <input type="hidden" name="profile_image_base64" id="profile_image_base64">
+
+                    <button type="submit" class="btn btn-primary" style="width:100%; font-weight: bold;">Register</button>
+                    <div class="have-account">Already have an account?</div>
+                    <div class="back-to-login"><a href="index.html">Back to login</a></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const webcamElement = document.getElementById('webCam');
+        const canvasElement = document.getElementById('canvas');
+        const webcam = new Webcam(webcamElement, 'user', canvasElement);
+        const imagePreview = document.getElementById('imagePreview');
+        const pictureImage = document.getElementById('pictureImage');
+        const snapButton = document.getElementById('snapButton');
+        const buttons = document.getElementById('buttons');
+
+        Webcam.set({
+            width: 320,
+            height: 240,
+            image_format: 'jpeg',
+            jpeg_quality: 90
+        });
+        Webcam.attach('#webCam');
+
+        function showWebcam() {
+            webcam.start()
+                .then(result => {
+                    webcamElement.style.display = 'block';
+                    snapButton.style.display = 'block';
+                    imagePreview.style.display = 'none';
+                    buttons.style.display = 'none';
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        }
+
+        function takeAPicture() {
+            const picture = webcam.snap();
+            webcam.stop();
+            webcamElement.style.display = 'none';
+            snapButton.style.display = 'none';
+            imagePreview.style.display = 'block';
+            pictureImage.src = picture;
+            document.getElementById('profileImage').value = picture;
+            buttons.style.display = 'flex';
+            document.getElementById('undo').style.display = 'block'; // Show the "Undo" button
+            document.getElementById('confirm').style.flex = 'unset'; // Reset the "Confirm" button flex style
+        }
+
+        function undoPicture() {
+            imagePreview.style.display = 'none';
+            buttons.style.display = 'none';
+            showWebcam();
+        }
+
+        function confirmPicture() {
+            const imageData = document.getElementById('profileImage').value;
+
+            if (imageData) {
+                const formData = new FormData();
+                formData.append('profile_image', imageData);
+
+                fetch('save_images.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(data => {
+                    console.log('Server response:', data);
+                    alert('Profile image saved successfully!');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to save profile image.');
+                });
+            } else {
+                alert('No image data found.');
+            }
+        }
+
+        function uploadPhoto() {
+            document.getElementById('fileInput').click();
+        }
+
+        function displayUploadedPhoto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    webcamElement.style.display = 'none';
+                    imagePreview.style.display = 'block';
+                    pictureImage.src = e.target.result;
+                    document.getElementById('profileImage').value = e.target.result;
+                    document.getElementById('undo').style.display = 'none'; // Hide the "Undo" button
+                    document.getElementById('confirm').style.flex = '1';
+                    buttons.style.display = 'flex';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        function validateForm(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    const formData = new FormData(document.getElementById('signupForm'));
+    const profileImage = document.getElementById('profileImage').value;
+
+    // Email validation regex
+    const email = document.getElementById('email').value;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Clear previous error messages
+    document.getElementById('username-error').innerText = '';
+    document.getElementById('email-error').innerText = '';
+
+    // Check profile image
+    if (!profileImage) {
+        alert('Please upload a profile picture');
+        return;
+    }
+
+    formData.append('profile_image_base64', profileImage); // Append the base64 image data
+
+    fetch('signup.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json(); // Expect JSON response from server
+    })
+    .then(data => {
+        // Clear previous error messages
+        document.getElementById('username-error').innerText = '';
+        document.getElementById('email-error').innerText = '';
+
+        if (data.status === 'success') {
+            alert('Registration successful!');
+            window.location.href = 'survey.html'; // Redirect to login page upon success
+        } else {
+            // Display specific error messages
+            if (data.errors.username) {
+                document.getElementById('username-error').innerText = data.errors.username;
+                document.getElementById('username-error').style.display = 'block';
+            } else {
+                document.getElementById('username-error').style.display = 'none';
+            }
+
+            if (data.errors.email) {
+                document.getElementById('email-error').innerText = data.errors.email;
+                document.getElementById('email-error').style.display = 'block';
+            } else {
+                document.getElementById('email-error').style.display = 'none';
+            }
+
+            if (data.errors.general) {
+                alert(data.errors.general);
+            }
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Sign-up failed.');
+    });
+}
+</script>
+</body>
+</html>

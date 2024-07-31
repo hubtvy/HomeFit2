@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #EEDBFF;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            background-color: rgb(255, 255, 255);
+            padding: 20px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border: none;
+            text-align: center;
+            margin: 120px auto;
+            position: relative;
+        }
+        .logo {
+            position: relative;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 50%;
+            padding: 10px;
+        }
+        .logo img {
+            max-height: 80px;
+        }
+        h2 {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+            margin-top: -10px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .form-control {
+            border-radius: 10px;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus {
+            background-color: #fff;
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+        .btn-primary {
+            display: block;
+            margin: 10px auto 10px auto;
+            border-radius: 10px;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .error-message {
+            color: red;
+            margin-top: 10px;
+        }
+        .have-account {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="Images/logo.png" alt="HomeFit">
+        </div>
+        <h2>HomeFit</h2>
+        <form id="loginForm" action="login.php" method="post" onsubmit="return validateLoginForm()">
+            <div class="form-group">
+                <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                <a href="ForgetPassword.html" style="margin-left: 320px;">Forgot Password?</a>
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+            <div id="error-message" class="error-message"></div>
+        </form>
+        <p class="have-account">Don't have an account yet? <br><a href="signup.html">Sign Up Here</a></p>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function validateLoginForm() {
+            console.log("Validating login form...");
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            if (username === '' || password === '') {
+                alert('Please fill in all fields.');
+                console.log("Validation failed: Empty fields.");
+                return false; // Prevent form submission
+            }
+
+            console.log("Form validation successful.");
+            return true; // Allow form submission
+        }
+
+        // Display error message from URL parameter
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const errorMessage = urlParams.get('error');
+            if (errorMessage) {
+                document.getElementById('error-message').innerText = errorMessage;
+            }
+        });
+    </script>
+</body>
+</html>

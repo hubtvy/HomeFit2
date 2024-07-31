@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #EEDBFF;
+        }
+        .content {
+            padding: 10px;
+        }
+        .workout-header {
+            position: relative;
+            color: #fff;
+            text-align: left;
+            padding: 20px;
+            background-size: cover;
+            background-position: center;
+            background-image: url('Images/chest_intermediate.jpg'); /* Updated image URL */
+        }
+        .workout-header::before {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3); /* Adjusted opacity */
+        }
+        .workout-header h1, .workout-header p {
+            color: #fff; /* Ensures text is white for contrast */
+        }
+        .workout-list {
+            margin: 20px 0;
+        }
+        .workout-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .workout-item img {
+            width: 50px;
+            height: 50px;
+            margin-right: 20px;
+        }
+        .workout-item div {
+            flex: 1;
+        }
+        .workout-item h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .workout-item p {
+            margin: 5px 0 0;
+            color: #888;
+        }
+        .back-button {
+            width: calc(100% - 40px);
+            margin: 20px auto;
+            display: block;
+            padding: 10px;
+            background-color: #9428a7;
+            color: #fff;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 10px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="workout-header">
+        <h1>CHEST INTERMEDIATE</h1>
+        <p>9 mins • 5 Workouts</p>
+    </div>
+    <div class="content">
+        <div class="workout-list">
+            <div class="workout-item">
+                <img src="Images/decline-push-ups.gif" alt="Decline Push-Ups">
+                <div>
+                    <h3>Decline Push-Ups</h3>
+                    <p>x20</p>
+                </div>
+            </div>
+            <div class="workout-item">
+                <img src="Images/staggered-push-ups.gif" alt="Staggered Push-Ups">
+                <div>
+                    <h3>Staggered Push-Ups</h3>
+                    <p>x20</p>
+                </div>
+            </div>
+            <div class="workout-item">
+                <img src="Images/hindu-push-ups.gif" alt="Hindu Push-Ups">
+                <div>
+                    <h3>Hindu Push-Ups</h3>
+                    <p>x20</p>
+                </div>
+            </div>
+            <div class="workout-item">
+                <img src="Images/shoulder-stretch.gif" alt="Shoulder Stretch">
+                <div>
+                    <h3>Shoulder Stretch</h3>
+                    <p>00:30</p>
+                </div>
+            </div>
+            <div class="workout-item">
+                <img src="Images/knee-push-ups.gif" alt="Knee Push Ups">
+                <div>
+                    <h3>Knee Push Ups</h3>
+                    <p>x20</p>
+                </div>
+            </div>
+        </div>
+        <a href="intermediate.html" class="back-button">Back</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEG INTERMEDIATE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #EEDBFF;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding: 20px;
+            text-align: center;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        .exercise {
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeSlideIn 0.5s forwards;
+        }
+
+        .exercise img {
+            width: 250px;
+            height: auto;
+            margin-bottom: 20px;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes fadeIn {
+            from {
+               opacity: 0;
+            }
+            to {
+               opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+               transform: translateY(-20px);
+            }
+            to {
+               transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeSlideIn {
+            from {
+               opacity: 0;
+               transform: translateY(20px);
+            }
+            to {
+               opacity: 1;
+               transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .details {
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+
+        .timer,
+        .reps {
+            font-size: 36px;
+            margin: 10px 0;
+        }
+
+        .pause-button,
+        .done-button {
+            background-color: #9428a7;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .previous-button,
+        .skip-button {
+            background-color: #f0f0f0;
+            color: #333;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 48%;
+        }
+
+        .exercise.hidden {
+            display: none;
+        }
+
+        .previous-button:disabled {
+            background-color: #d0d0d0;
+            cursor: not-allowed;
+        }
+
+        .nav-icons {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .nav-icons i {
+            font-size: 24px;
+            color: #ccc;
+            cursor: pointer;
+        }
+
+        .nav-icons .bi-arrow-left {
+            margin-right: auto;
+        }
+
+        .nav-icons .disabled {
+            cursor: not-allowed;
+            color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Exercise 1: Fire Hydrant -->
+        <div class="exercise" id="exercise1">
+            <div class="nav-icons">
+                <i class="bi bi-arrow-left" onclick="goBackToMyExercises()"></i>
+            </div>
+            <img src="Images/fire-hydrant.gif" alt="Fire Hydrant">
+            <div class="details">
+                <h1>FIRE HYDRANT</h1>
+                <div class="reps">
+                    <span>x20</span>
+                </div>
+                <button class="done-button" onclick="completeExercise(1)">DONE</button>
+            </div>
+            <div class="controls">
+                <button class="previous-button" onclick="previousExercise('exercise1')"disabled>Previous</button>
+                <button class="skip-button" onclick="skipExercise(1, 'exercise2')">Skip</button>
+            </div>
+        </div>
+
+        <!-- Exercise 2: Knee Circles -->
+        <div class="exercise hidden" id="exercise2">
+            <div class="nav-icons">
+                <i class="bi bi-arrow-left" onclick="previousExercise('exercise1')"></i>
+            </div>
+            <img src="Images/knee-circles.gif" alt="Knee Circles">
+            <div class="details">
+                <h1>KNEE CIRCLES</h1>
+                <div class="reps">
+                    <span>x20</span>
+                </div>
+                <button class="done-button" onclick="completeExercise(2)">DONE</button>
+            </div>
+            <div class="controls">
+                <button class="previous-button" onclick="previousExercise('exercise1')">Previous</button>
+                <button class="skip-button" onclick="skipExercise(2, 'exercise3')">Skip</button>
+            </div>
+        </div>
+
+        <!-- Exercise 3: Sumo Squat -->
+        <div class="exercise hidden" id="exercise3">
+            <div class="nav-icons">
+                <i class="bi bi-arrow-left" onclick="previousExercise('exercise2')"></i>
+            </div>
+            <img src="Images/sumo-squat.gif" alt="Sumo Squat">
+            <div class="details">
+                <h1>SUMO SQUAT</h1>
+                <div class="reps">
+                    <span>x20</span>
+                </div>
+                <button class="done-button" onclick="completeExercise(3)">DONE</button>
+            </div>
+            <div class="controls">
+                <button class="previous-button" onclick="previousExercise('exercise2')">Previous</button>
+                <button class="skip-button" onclick="skipExercise(3, 'exercise4')">Skip</button>
+            </div>
+        </div>
+
+        <!-- Exercise 4: Quad Stretch -->
+        <div class="exercise hidden" id="exercise4">
+            <div class="nav-icons">
+                <i class="bi bi-arrow-left" onclick="previousExercise('exercise3')"></i>
+            </div>
+            <img src="Images/quad-stretch.gif" alt="Quad Stretch">
+            <div class="details">
+                <h1>QUAD STRETCH</h1>
+                <div class="timer">
+                    <span id="timer4">00:30</span>
+                </div>
+                <button class="pause-button" onclick="pauseTimer(4)">PAUSE</button>
+            </div>
+            <div class="controls">
+                <button class="previous-button" onclick="previousExercise('exercise3')">Previous</button>
+                <button class="skip-button" onclick="skipExercise(4, 'exercise5')">Skip</button>
+            </div>
+        </div>
+
+        <!-- Exercise 5: Diamond Kicks -->
+        <div class="exercise hidden" id="exercise5">
+            <div class="nav-icons">
+                <i class="bi bi-arrow-left" onclick="previousExercise('exercise4')"></i>
+            </div>
+            <img src="Images/diamond-kicks.gif" alt="Diamond Kicks">
+            <div class="details">
+                <h1>DIAMOND KICKS</h1>
+                <div class="reps">
+                    <span>x20</span>
+                </div>
+                <button class="done-button" onclick="completeExercise(5)">DONE</button>
+            </div>
+            <div class="controls">
+                <button class="previous-button" onclick="previousExercise('exercise4')">Previous</button>
+                <button class="skip-button" onclick="showCongratulation()">Skip</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let timers = [null, null, null, null, null];
+        let pauseFlags = [false, false, false, false, false];
+        let timeRemaining = [0, 0, 0, 30, 0];
+        let completedExercises = 0; // Variable to track completed exercises
+        let completed = [false, false, false, false, false]; // Track if each exercise has been completed
+    
+        function startTimer(exerciseId, duration) {
+            const timerElement = document.getElementById(`timer${exerciseId}`);
+            let timer = duration, minutes, seconds;
+            clearInterval(timers[exerciseId - 1]); // Clear any existing timer
+            timers[exerciseId - 1] = setInterval(() => {
+                if (!pauseFlags[exerciseId - 1]) {
+                    minutes = Math.floor(timer / 60);
+                    seconds = timer % 60;
+    
+                    minutes = minutes < 10 ? "0" + minutes : minutes;
+                    seconds = seconds < 10 ? "0" + seconds : seconds;
+    
+                    timerElement.textContent = `${minutes}:${seconds}`;
+                    timeRemaining[exerciseId - 1] = timer;
+    
+                    if (--timer < 0) {
+                        clearInterval(timers[exerciseId - 1]);
+                        if (!completed[exerciseId - 1]) {
+                            completeExercise(exerciseId);
+                        }
+                    }
+                }
+            }, 1000);
+        }
+    
+        function pauseTimer(exerciseId) {
+            pauseFlags[exerciseId - 1] = !pauseFlags[exerciseId - 1];
+            document.querySelector(`#exercise${exerciseId} .pause-button`).textContent = pauseFlags[exerciseId - 1] ? 'RESUME' : 'PAUSE';
+        }
+    
+        function nextExercise(nextExerciseId) {
+            const currentExercise = document.querySelector('.exercise:not(.hidden)');
+            currentExercise.classList.add('hidden');
+            document.getElementById(nextExerciseId).classList.remove('hidden');
+            const nextExerciseNum = parseInt(nextExerciseId.replace('exercise', ''), 10);
+            if (nextExerciseNum <= 5) {
+                timeRemaining[nextExerciseNum - 1] = 30; // Reset timer to 30 seconds
+                pauseFlags[nextExerciseNum - 1] = false; // Reset pause flag
+                document.querySelector(`#exercise${nextExerciseNum} .pause-button`).textContent = 'PAUSE';
+                startTimer(nextExerciseNum, timeRemaining[nextExerciseNum - 1]);
+            } else {
+                showCongratulation();
+            }
+        }
+    
+        function skipExercise(exerciseId, nextExerciseId) {
+            clearInterval(timers[exerciseId - 1]);
+            if (exerciseId === 5) {
+                showCongratulation();
+            } else {
+                nextExercise(nextExerciseId);
+            }
+        }
+    
+        function previousExercise(previousExerciseId) {
+            const currentExercise = document.querySelector('.exercise:not(.hidden)');
+            currentExercise.classList.add('hidden');
+            document.getElementById(previousExerciseId).classList.remove('hidden');
+            const previousExerciseNum = parseInt(previousExerciseId.replace('exercise', ''), 10);
+            if (previousExerciseNum > 0) {
+                timeRemaining[previousExerciseNum - 1] = 30; // Reset timer to 30 seconds
+                pauseFlags[previousExerciseNum - 1] = false; // Reset pause flag
+                document.querySelector(`#exercise${previousExerciseNum} .pause-button`).textContent = 'PAUSE';
+                startTimer(previousExerciseNum, timeRemaining[previousExerciseNum - 1]);
+            }
+        }
+    
+        function completeExercise(exerciseId) {
+            if (!completed[exerciseId - 1]) {
+                completed[exerciseId - 1] = true; // Mark exercise as completed
+                completedExercises++;
+            }
+            if (exerciseId === 5) {
+                showCongratulation();
+            } else {
+                if (completedExercises === 5) {
+                    showCongratulation();
+                } else {
+                    nextExercise(`exercise${exerciseId + 1}`);
+                }
+            }
+        }
+    
+        function showCongratulation() {
+            let message = `Congratulations! You've completed ${completedExercises} exercises for LEG INTERMEDIATE.`;
+            alert(message);
+            // Redirect to my_exercises.html after the alert is closed
+            window.location.href = 'MyExercise.html';
+        }
+
+        function goBackToMyExercises() {
+            window.location.href = 'MyExercise.html';
+        }
+        
+        // Initialize first exercise
+        startTimer(1, 30);
+    </script>
+
+</body>
+</html>
